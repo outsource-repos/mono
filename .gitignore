@@ -174,5 +174,3 @@ dist
 
 # Finder (MacOS) folder config
 .DS_Store
-client/taro/* # 将 client/taro 文件夹添加到 .gitignore
-client/taro/
