@@ -1,4 +1,4 @@
-import { $, file, env } from "bun";
+import { $ } from "bun";
 
 const REMOTE_USER = "ts";
 const REMOTE_HOST = "192.168.1.141";
@@ -35,12 +35,14 @@ async function deploy() {
       ls -la
       echo '=== 父目录内容 ==='
       ls -la ..
+      echo '=== 检查 Docker 配置 ==='
+      docker info
       echo '=== 构建 Docker 镜像 ==='
-      docker build --platform linux/amd64 -t ${IMAGE_NAME} .
+      docker build --no-cache -t ${IMAGE_NAME} .
       echo '=== 运行 Docker 容器 ==='
       docker stop ${CONTAINER_NAME} || true
       docker rm ${CONTAINER_NAME} || true
-      docker run -d --platform linux/amd64 --name ${CONTAINER_NAME} -p 3000:3000 ${IMAGE_NAME}
+      docker run -d --name ${CONTAINER_NAME} -p 3000:3000 ${IMAGE_NAME}
     "`;
 
     console.log("部署完成！");
