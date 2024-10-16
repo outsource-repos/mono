@@ -5,15 +5,12 @@ WORKDIR /usr/src/app
 COPY package.json bun.lockb ./
 
 # 设置 Bun 镜像
-RUN bun pm set registry https://registry.npmmirror.com
+ENV BUN_INSTALL="https://registry.npmmirror.com"
 
 # 安装依赖
-FROM base AS install
 RUN bun install --frozen-lockfile --production
 
-# 复制生产依赖和源代码到最终镜像
-FROM base AS release
-COPY --from=install /usr/src/app/node_modules node_modules
+# 复制源代码
 COPY src src
 COPY tsconfig.json .
 
