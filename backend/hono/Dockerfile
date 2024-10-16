@@ -4,8 +4,8 @@ WORKDIR /usr/src/app
 # 复制 package.json 和 bun.lockb
 COPY package.json bun.lockb ./
 
-# 设置 Bun 镜像
-ENV BUN_INSTALL="https://registry.npmmirror.com"
+# 创建 bunfig.toml 文件来设置 registry
+RUN echo '[install]\nregistry = "https://registry.npmmirror.com"' > bunfig.toml
 
 # 安装依赖
 RUN bun install --frozen-lockfile --production
