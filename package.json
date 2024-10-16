@@ -9,9 +9,12 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "workspaces":[
+  "workspaces": [
     "packages/*",
     "backend/*",
     "client/*"
-  ]
+  ],
+  "scripts": {
+    "dp:hono": "cd backend/hono && bun run scripts/deploy.ts"
+  }
 }
