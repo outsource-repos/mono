@@ -10,12 +10,12 @@ const REPO_URL = "git@github.com:outsource-repos/mono.git";
 
 async function deploy() {
   try {
-    console.log("开始部署...");
+    console.log("Starting deployment...");
 
-    console.log("推送代码到远程仓库...");
+    console.log("Pushing code to remote repository...");
     await $`git push origin main`;
 
-    console.log("连接到远程服务器...");
+    console.log("Connecting to remote server...");
     await $`ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} "
       set -e
       mkdir -p ${REMOTE_PATH}
@@ -27,27 +27,27 @@ async function deploy() {
         git reset --hard origin/main
       fi
       cd ${HONO_PATH}
-      echo '=== 当前工作目录 ==='
+      echo '=== Current working directory ==='
       pwd
-      echo '=== Dockerfile 路径 ==='
+      echo '=== Dockerfile path ==='
       ls -l Dockerfile || echo 'Dockerfile not found'
-      echo '=== 目录内容 ==='
+      echo '=== Directory contents ==='
       ls -la
-      echo '=== 父目录内容 ==='
+      echo '=== Parent directory contents ==='
       ls -la ..
-      echo '=== 检查 Docker 配置 ==='
+      echo '=== Checking Docker configuration ==='
       docker info
-      echo '=== 构建 Docker 镜像 ==='
+      echo '=== Building Docker image ==='
       docker build --no-cache -t ${IMAGE_NAME} .
-      echo '=== 运行 Docker 容器 ==='
+      echo '=== Running Docker container ==='
       docker stop ${CONTAINER_NAME} || true
       docker rm ${CONTAINER_NAME} || true
       docker run -d --name ${CONTAINER_NAME} -p 3000:3000 ${IMAGE_NAME}
     "`;
 
-    console.log("部署完成！");
+    console.log("Deployment completed!");
   } catch (error) {
-    console.error("部署失败:", error);
+    console.error("Deployment failed:", error);
     process.exit(1);
   }
 }
