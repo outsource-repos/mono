@@ -1,6 +1,9 @@
 FROM oven/bun:1 AS base
 WORKDIR /usr/src/app
 
+# 设置 Bun 镜像
+RUN bun pm set registry https://registry.npmmirror.com
+
 # 安装依赖
 FROM base AS install
 RUN mkdir -p /temp/prod
